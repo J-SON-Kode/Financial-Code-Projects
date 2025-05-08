@@ -87,16 +87,16 @@ for m in range(1, n_periods + 1):
     # Equity after rent contributions and cash interest
     equity = initial_deposit + cumulative_principal_rent - total_interest_cash
     gain_from_rent = equity - initial_deposit
-    roi_from_rent = (gain_from_rent / initial_deposit * 100) if initial_deposit > 0 else 0
+    roi_from_rent = (gain_from_rent / cumulative_cash_invested * 100) if cumulative_cash_invested > 0 else 0
 
     # Capital gain
     prop_value = purchase_price * (1 + capital_growth / 100) ** (m / 12)
     capital_gain = prop_value - purchase_price
-    roi_from_capital = (capital_gain / purchase_price * 100)
+    roi_from_capital = (capital_gain / cumulative_cash_invested * 100) if cumulative_cash_invested > 0 else 0
 
     # Total return and ROI
     total_return = gain_from_rent + capital_gain
-    total_roi = (total_return / initial_deposit * 100) if initial_deposit > 0 else 0
+    total_roi = (total_return / cumulative_cash_invested * 100) if cumulative_cash_invested > 0 else 0
 
     # Record
     records.append({
