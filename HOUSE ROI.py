@@ -2,6 +2,9 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import numpy_financial as nf
+import altair as alt
+from streamlit_echarts import st_echarts
+
 
 st.set_page_config(layout="wide")
 st.title("Property Investment Dashboard (Pure Rental ROI + Capital Gains)")
@@ -216,3 +219,22 @@ st.dataframe(df.style.format({
     'Total ROI (%)': '{:.2f}',
     'Total Cash Invested': 'R {:,.0f}'
 }))
+
+# --Charting--
+
+st.subheader("Return on Investment Over Time")
+
+# Create 2 columns
+col1, col2 = st.columns(2)
+
+# ROI % Chart
+with col1:
+    st.markdown("**% Return Over Time**")
+    roi_pct_df = df[['Month', 'ROI From Rent (%)', 'ROI From Capital (%)', 'Total ROI (%)']].set_index('Month')
+    st.line_chart(roi_pct_df)
+
+# ROI Rands Chart
+with col2:
+    st.markdown("**Rand Return Over Time**")
+    roi_r_df = df[['Month', 'Gain From Rent', 'Capital Gain', 'Total Return']].set_index('Month')
+    st.line_chart(roi_r_df)
