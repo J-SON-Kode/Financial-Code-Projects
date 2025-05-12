@@ -8,18 +8,82 @@ st.title("Property Investment Dashboard (Pure Rental ROI + Capital Gains)")
 
 # --- Inputs ---
 st.sidebar.header("Assumptions & Inputs")
-purchase_price = st.sidebar.number_input("Purchase Price (ZAR)", value=1_000_000, step=50_000, min_value=0)
-deposit = st.sidebar.number_input("Initial Deposit (ZAR)", value=200_000, step=10_000, min_value=0, max_value=purchase_price)
-loan_amount = purchase_price - deposit
-st.sidebar.write(f"Loan Amount (ZAR): {loan_amount:,.0f}")
 
-annual_interest = st.sidebar.number_input("Mortgage Interest Rate (%)", value=10.0, step=0.1, min_value=0.0)
-term_years = st.sidebar.number_input("Loan Term (Years)", value=20, step=1, min_value=1)
-monthly_rent = st.sidebar.number_input("Starting Monthly Rent (ZAR)", value=15_000, step=1_000, min_value=0)
-monthly_costs = st.sidebar.number_input("Starting Monthly Rates & Levies (ZAR)", value=5_000, step=500, min_value=0)
-rental_escalation = st.sidebar.number_input("Annual Rent Escalation (%)", value=5.0, step=0.1, min_value=0.0)
-costs_escalation = st.sidebar.number_input("Annual Costs Escalation (%)", value=3.0, step=0.1, min_value=0.0)
-capital_growth = st.sidebar.number_input("Annual Property Appreciation (%)", value=4.0, step=0.1, min_value=0.0)
+purchase_price = st.sidebar.number_input(
+    "Purchase Price (ZAR)",
+    min_value=100_000,
+    value=1_000_000,
+    step=50_000,
+    format="%d"  # optional currency‑style formatting
+)
+
+deposit = st.sidebar.slider(
+    "Initial Deposit (ZAR)",
+    min_value=0,
+    max_value=purchase_price,      # keep deposit ≤ price
+    value=200_000,
+    step=10_000,
+    format="R %d"
+)
+
+loan_amount = purchase_price - deposit
+st.sidebar.markdown(f"**Loan Amount (ZAR):** {loan_amount:,.0f}")
+
+annual_interest = st.sidebar.slider(
+    "Mortgage Interest Rate (%)",
+    min_value=0.0,
+    max_value=20.0,
+    value=10.0,
+    step=0.1
+)
+
+term_years = st.sidebar.slider(
+    "Loan Term (Years)",
+    min_value=1,
+    max_value=30,
+    value=20,
+    step=1
+)
+
+monthly_rent = st.sidebar.number_input(
+    "Starting Monthly Rent (ZAR)",
+    value=15_000,
+    step=500,
+    min_value=0,
+    format="%d"  # optional — suppresses decimals
+)
+
+monthly_costs = st.sidebar.number_input(
+    "Monthly Rates & Levies (ZAR)",
+    value=5_000,
+    step=500,
+    min_value=0,
+    format="%d"
+)
+
+rental_escalation = st.sidebar.slider(
+    "Annual Rent Escalation (%)",
+    min_value=0.0,
+    max_value=15.0,
+    value=5.0,
+    step=0.1
+)
+
+costs_escalation = st.sidebar.slider(
+    "Annual Costs Escalation (%)",
+    min_value=0.0,
+    max_value=15.0,
+    value=3.0,
+    step=0.1
+)
+
+capital_growth = st.sidebar.slider(
+    "Annual Property Appreciation (%)",
+    min_value=0.0,
+    max_value=15.0,
+    value=4.0,
+    step=0.1
+)
 
 # --- Validation ---
 if purchase_price <= 0:
