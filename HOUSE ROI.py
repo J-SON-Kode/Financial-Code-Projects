@@ -29,6 +29,14 @@ deposit = st.sidebar.slider(
     format="R %d"
 )
 
+purchase_fees = st.sidebar.number_input(
+    "Upfront Property Fees (ZAR)",
+    value=50_000,
+    step=5_000,
+    min_value=0,
+    format="%d"
+)
+
 loan_amount = purchase_price - deposit
 st.sidebar.markdown(f"**Loan Amount (ZAR):** {loan_amount:,.0f}")
 
@@ -105,8 +113,8 @@ n_periods = int(term_years * 12)
 contract_payment = -nf.pmt(monthly_rate, n_periods, loan_amount)
 
 # Trackers
-initial_deposit = deposit
-cumulative_cash_invested = deposit  # deposit + any principal from cash
+initial_deposit = deposit + purchase_fees  # ⬅️ total upfront cash outlay
+cumulative_cash_invested = initial_deposit  # deposit + any principal from cash
 cumulative_principal_rent = 0       # principal funded by rent
 total_interest_cash = 0             # interest paid out-of-pocket
 balance = loan_amount
